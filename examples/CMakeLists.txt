@@ -101,6 +101,12 @@ else()
    if (OpenCV_FOUND)
       include_directories(${OpenCV_INCLUDE_DIRS})
 
+      add_executable(pic_head_pose pic_head_pose.cpp)
+      target_link_libraries(pic_head_pose dlib ${OpenCV_LIBS} )
+
+      add_executable(video2pic video2pic.cpp)
+      target_link_libraries(video2pic dlib ${OpenCV_LIBS} )
+
       add_executable(webcam_head_pose webcam_head_pose.cpp)
       target_link_libraries(webcam_head_pose dlib ${OpenCV_LIBS} )
 
