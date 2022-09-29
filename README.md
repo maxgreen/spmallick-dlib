@@ -16,6 +16,7 @@ That will build all the examples.
 If you have a CPU that supports AVX instructions then turn them on like this:
 
 ```bash
+-DUSE_AVX_INSTRUCTION=ON -DUSE_SSE4_INSTRUCTIONS=ON
 mkdir build; cd build; cmake .. -DUSE_AVX_INSTRUCTIONS=1; cmake --build .
 ```
 

@@ -1,0 +1,4 @@
+https://blog.csdn.net/u014426939/article/details/81451389?utm_source=blogxgwz4
+在Debug编译下，会出现USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1这个错误，本人解决方法：
+
+在dlib\test_for_odr_violations.h文件注释掉ENABLE_ASSERTS这一段

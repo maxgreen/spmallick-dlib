@@ -16,13 +16,15 @@ extern "C"
 // (e.g. by compiling part of your program in a debug mode and part in a release mode) or
 // you have simply forgotten to compile dlib/all/source.cpp into your application.
 // =========================>>> WHY YOU ARE GETTING AN ERROR HERE <<<=========================
-#ifdef ENABLE_ASSERTS
+/* ghj 注释 解决 USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1这个错误
+ #ifdef ENABLE_ASSERTS
     const extern int USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1;
     const int DLIB_NO_WARN_UNUSED dlib_check_assert_helper_variable = USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1;
 #else
     const extern int USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1_;
     const int DLIB_NO_WARN_UNUSED dlib_check_assert_helper_variable = USER_ERROR__inconsistent_build_configuration__see_dlib_faq_1_;
 #endif
+ */
 
 
 

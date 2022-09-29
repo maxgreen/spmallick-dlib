@@ -28,4 +28,4 @@
 // Define this so the code in dlib/test_for_odr_violations.h can detect ODR violations
 // related to users doing bad things with config.h
 #define DLIB_NOT_CONFIGURED
-
+#define DLIB__CMAKE_GENERATED_A_CONFIG_H_FILE

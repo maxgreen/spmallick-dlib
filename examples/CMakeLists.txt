@@ -42,20 +42,6 @@ project(examples)
 # cmake needs is the dlib source code folder and it will take care of everything.
 add_subdirectory(../dlib dlib_build)
 
-
-# The next thing we need to do is tell CMake about the code you want to
-# compile.  We do this with the add_executable() statement which takes the name
-# of the output executable and then a list of .cpp files to compile.  Here we
-# are going to compile one of the dlib example programs which has only one .cpp
-# file, assignment_learning_ex.cpp.  If your program consisted of multiple .cpp
-# files you would simply list them here in the add_executable() statement.  
-add_executable(assignment_learning_ex assignment_learning_ex.cpp)
-# Finally, you need to tell CMake that this program, assignment_learning_ex,
-# depends on dlib.  You do that with this statement: 
-target_link_libraries(assignment_learning_ex dlib::dlib)
-
-
-
 # To compile this program all you need to do is ask cmake.  You would type
 # these commands from within the directory containing this CMakeLists.txt
 # file:
@@ -106,41 +92,6 @@ macro(add_gui_example name)
    endif()
 endmacro()
 
-# The deep learning toolkit requires a compiler with essentially complete C++11
-# support.  However, versions of Visual Studio prior to October 2016 didn't
-# provide enough C++11 support to compile the DNN tooling, but were good enough
-# to compile the rest of dlib.  So new versions of Visual Studio 2015 will
-# work.  However, Visual Studio 2017 had some C++11 support regressions, so it
-# wasn't until December 2017 that Visual Studio 2017 had good enough C++11
-# support to compile the DNN examples.  So if you are using Visual Studio, make
-# sure you have an updated version if you want to compile the DNN code.
-#
-# Also note that Visual Studio users should give the -T host=x64 option so that
-# CMake will instruct Visual Studio to use its 64bit toolchain.  If you don't
-# do this then by default Visual Studio uses a 32bit toolchain, WHICH RESTRICTS
-# THE COMPILER TO ONLY 2GB OF RAM, causing it to run out of RAM and crash when
-# compiling some of the DNN examples.  So generate your project with a statement
-# like this:
-#   cmake .. -G "Visual Studio 14 2015 Win64" -T host=x64 
-if (NOT USING_OLD_VISUAL_STUDIO_COMPILER)
-   add_example(dnn_metric_learning_ex)
-   add_gui_example(dnn_face_recognition_ex)
-   add_example(dnn_introduction_ex)
-   add_example(dnn_introduction2_ex)
-   add_example(dnn_inception_ex)
-   add_gui_example(dnn_mmod_ex)
-   add_gui_example(dnn_mmod_face_detection_ex)
-   add_gui_example(random_cropper_ex)
-   add_gui_example(dnn_mmod_dog_hipsterizer)
-   add_gui_example(dnn_imagenet_ex)
-   add_gui_example(dnn_mmod_find_cars_ex)
-   add_gui_example(dnn_mmod_find_cars2_ex)
-   add_example(dnn_mmod_train_find_cars_ex)
-   add_gui_example(dnn_semantic_segmentation_ex)
-   add_example(dnn_imagenet_train_ex)
-   add_example(dnn_semantic_segmentation_train_ex)
-   add_example(dnn_metric_learning_on_images_ex)
-endif()
 
 
 if (DLIB_NO_GUI_SUPPORT)
@@ -150,109 +101,17 @@ else()
    if (OpenCV_FOUND)
       include_directories(${OpenCV_INCLUDE_DIRS})
 
+      add_executable(webcam_head_pose webcam_head_pose.cpp)
+      target_link_libraries(webcam_head_pose dlib ${OpenCV_LIBS} )
+
       add_executable(webcam_face_pose_ex webcam_face_pose_ex.cpp)
       target_link_libraries(webcam_face_pose_ex dlib::dlib ${OpenCV_LIBS} )
 
-			add_executable(webcam_head_pose webcam_head_pose.cpp)
-   		target_link_libraries(webcam_head_pose dlib ${OpenCV_LIBS} )
-   
-			add_executable(webcam_face_pose_fast webcam_face_pose_fast)
-			target_link_libraries(webcam_face_pose_fast dlib ${OpenCV_LIBS} )
+      add_executable(webcam_face_pose_fast webcam_face_pose_fast)
+      target_link_libraries(webcam_face_pose_fast dlib ${OpenCV_LIBS} )
 
-			add_executable(face_landmark_detection_to_file face_landmark_detection_to_file.cpp)
-   		target_link_libraries(face_landmark_detection_to_file dlib ${OpenCV_LIBS} )
    else()
       message("OpenCV not found, so we won't build the webcam_face_pose_ex example.")
    endif()
 endif()
-
-
-
-#here we apply our macros 
-add_gui_example(3d_point_cloud_ex)
-add_example(bayes_net_ex)
-add_example(bayes_net_from_disk_ex)
-add_gui_example(bayes_net_gui_ex)
-add_example(bridge_ex)
-add_example(bsp_ex)
-add_example(compress_stream_ex)
-add_example(config_reader_ex)
-add_example(custom_trainer_ex)
-add_example(dir_nav_ex)
-add_example(empirical_kernel_map_ex)
-add_gui_example(face_detection_ex)
-add_gui_example(face_landmark_detection_ex)
-add_gui_example(fhog_ex)
-add_gui_example(fhog_object_detector_ex)
-add_example(file_to_code_ex)
-add_example(graph_labeling_ex)
-add_gui_example(gui_api_ex)
-add_gui_example(hough_transform_ex)
-add_gui_example(image_ex)
-add_example(integrate_function_adapt_simp_ex)
-add_example(iosockstream_ex)
-add_example(kcentroid_ex)
-add_example(kkmeans_ex)
-add_example(krls_ex)
-add_example(krls_filter_ex)
-add_example(krr_classification_ex)
-add_example(krr_regression_ex)
-add_example(learning_to_track_ex)
-add_example(least_squares_ex)
-add_example(linear_manifold_regularizer_ex)
-add_example(logger_custom_output_ex)
-add_example(logger_ex)
-add_example(logger_ex_2)
-add_example(matrix_ex)
-add_example(matrix_expressions_ex)
-add_example(max_cost_assignment_ex)
-add_example(member_function_pointer_ex)
-add_example(mlp_ex)
-add_example(model_selection_ex)
-add_gui_example(mpc_ex)
-add_example(multiclass_classification_ex)
-add_example(multithreaded_object_ex)
-add_gui_example(object_detector_advanced_ex)
-add_gui_example(object_detector_ex)
-add_gui_example(one_class_classifiers_ex)
-add_example(optimization_ex)
-add_example(parallel_for_ex)
-add_example(pipe_ex)
-add_example(pipe_ex_2)
-add_example(quantum_computing_ex)
-add_example(queue_ex)
-add_example(rank_features_ex)
-add_example(running_stats_ex)
-add_example(rvm_ex)
-add_example(rvm_regression_ex)
-add_example(sequence_labeler_ex)
-add_example(sequence_segmenter_ex)
-add_example(server_http_ex)
-add_example(server_iostream_ex)
-add_example(sockets_ex)
-add_example(sockstreambuf_ex)
-add_example(std_allocator_ex)
-add_gui_example(surf_ex)
-add_example(svm_c_ex)
-add_example(svm_ex)
-add_example(svm_pegasos_ex)
-add_example(svm_rank_ex)
-add_example(svm_sparse_ex)
-add_example(svm_struct_ex)
-add_example(svr_ex)
-add_example(thread_function_ex)
-add_example(thread_pool_ex)
-add_example(threaded_object_ex)
-add_example(threads_ex)
-add_example(timer_ex)
-add_gui_example(train_object_detector)
-add_example(train_shape_predictor_ex)
-add_example(using_custom_kernels_ex)
-add_gui_example(video_tracking_ex)
-add_example(xml_parser_ex)
-
-if (DLIB_LINK_WITH_SQLITE3)
-   add_example(sqlite_ex)
-endif()
-
 
